@@ -9,12 +9,13 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/api', (req, res) => {
-  res.send('Prueba express');
+  res.status(200).send("OK");
 });
 
 app.post('/api', async (req, res) => {
   try {
     const body = req.body;
+    console.log(config.steinURI)
     const ID = await steinConnection(body, config.steinURI);
     res.status(200).send(`${ID}`);
   } catch (error) {
