@@ -1,3 +1,4 @@
+Attribute VB_Name = "Módulo1"
 Sub CallAPI(params As String)
     ' Declare variables
     Dim objHTTP As Object
@@ -9,9 +10,9 @@ Sub CallAPI(params As String)
     Dim fecha As Date
     Dim valorBruto As Double
     Dim valor As Double
-    Dim numeroFra As String
+    Dim numeroCot As String
     Dim observaciones As String
-
+        
     ' IDK, but, I'm not going to refactor this function
     Set SourceBook = ActiveWorkbook
     Set OriginWorkSheet = SourceBook.Sheets(params)
@@ -22,9 +23,9 @@ Sub CallAPI(params As String)
     solicitante = OriginWorkSheet.Range("F5").Value
     centroCosto = OriginWorkSheet.Range("H5").Value
     ciudad = OriginWorkSheet.Range("H6").Value
-    numeroFra = "001"
+    numeroCot = OriginWorkSheet.Range("G10").Value
     observaciones = OriginWorkSheet.Range("A69").Value
-
+    
     ' Create a WinHttpRequest object
     Set objHTTP = CreateObject("WinHttp.WinHttpRequest.5.1")
 
@@ -33,7 +34,7 @@ Sub CallAPI(params As String)
     MsgBox "API URL: " & URL
 
     ' Set the request body (raw JSON or other content)
-    RequestBody = "[{""PROVEEDOR"": """ & proveedor & """, ""FECHA"": """ & fecha & """, ""VALOR_BRUTO"": """ & valorBruto & """, ""VALOR"": """ & valor & """, ""N_FRA"": """ & numeroFra & """, ""SOLICITANTE"": """ & solicitante & """, ""CENTRO_COSTO"": """ & centroCosto & """, ""CIUDAD"": """ & ciudad & """, ""OBSERVACIONES"": """ & observaciones & """}]"
+    RequestBody = "[{""PROVEEDOR"": """ & proveedor & """, ""FECHA"": """ & fecha & """, ""VALOR_BRUTO"": """ & valorBruto & """, ""VALOR"": """ & valor & """, ""N_COT"": """ & numeroCot & """, ""SOLICITANTE"": """ & solicitante & """, ""CENTRO_COSTO"": """ & centroCosto & """, ""CIUDAD"": """ & ciudad & """, ""OBSERVACIONES"": """ & observaciones & """}]"
 
     ' Open a connection to the URL
     objHTTP.Open "POST", URL, False
@@ -71,7 +72,7 @@ Sub ExportOC(params As String)
 
     ' Define the sheet you want to export
     Set ws = ThisWorkbook.Sheets(params)
-
+    
     ' Get the current year and OC number
     currentYear = Year(Date)
     OC_Num = ws.Range("G2").Value
@@ -107,10 +108,10 @@ Sub ExportOC(params As String)
     With newWB.Sheets(1).UsedRange
         .Value = .Value
     End With
-
+    
     ' Export the sheet as PDF
     ws.ExportAsFixedFormat Type:=xlTypePDF, fileName:=filePath & "\" & fileName & ".pdf"
-
+    
     ' Save the new workbook with the specified file name and path
     newWB.SaveAs filePath & "\" & fileName & ".xlsx"
     newWB.Close SaveChanges:=False
@@ -128,12 +129,12 @@ Sub CheckAndWakeupAPI(params As String)
     Dim XMLHttpRequest As Object
     Dim SourceBook As Workbook
     Dim OriginWorkSheet As Worksheet
-
+    
     Set SourceBook = ActiveWorkbook
     Set OriginWorkSheet = SourceBook.Sheets(params)
     URL = OriginWorkSheet.Range("B3").Value
     MsgBox "API URL: " & URL
-
+    
 
     ' Create a new XMLHttpRequest object
     Set XMLHttpRequest = CreateObject("MSXML2.ServerXMLHTTP")

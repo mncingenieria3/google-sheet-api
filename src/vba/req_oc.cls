@@ -8,10 +8,10 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Private Sub CommandButton1_Click()
-    CallAPI
-    ExportOC
+    CallAPI ("REQUISICION")
+    ExportOC ("ORDEN DE COMPRA")
 End Sub
 
 Private Sub CommandButton2_Click()
-    CheckAndWakeupAPI
+    CheckAndWakeupAPI ("REQUISICION")
 End Sub
