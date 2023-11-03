@@ -42,6 +42,23 @@ app.post('/api/os', async (req, res) => {
   }
 });
 
+app.get('/api/test', (req, res) => {
+  res.status(200).send("OK, Current path: OC");
+});
+
+
+app.post('/api/test', async (req, res) => {
+
+  try {
+    const body = req.body;
+    res.status(200).send(body);
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Error'
+    });
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`App running on ${PORT}`);
 });
