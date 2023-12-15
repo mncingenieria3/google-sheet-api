@@ -3,6 +3,7 @@ const app = express();
 const { config } = require('./config/config');
 const cors = require('cors');
 const steinConnection = require('./service/post.service');
+const testEndpoint = require('./service/test.service');
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
@@ -51,7 +52,9 @@ app.post('/api/test', async (req, res) => {
 
   try {
     const body = req.body;
-    res.status(200).send(body);
+    const ID = await testEndpoint();
+    console.log(ID);
+    res.status(200).send(`${ID}`);
   } catch (error) {
     res.status(500).json({
       msg: 'Error'
