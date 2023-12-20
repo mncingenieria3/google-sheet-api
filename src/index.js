@@ -3,6 +3,7 @@ const app = express();
 const { config } = require('./config/config');
 const cors = require('cors');
 const steinConnection = require('./service/post.service');
+const testEndpoint = require('./service/test.service');
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
@@ -41,6 +42,25 @@ app.post('/api/os', async (req, res) => {
     });
   }
 });
+
+app.get('/api/test', (req, res) => {
+  res.status(200).send("OK, Current path: OC");
+});
+
+
+app.post('/api/test', async (req, res) => {
+
+  try {
+    const body = req.body;
+    const ID = await testEndpoint();
+    console.log(ID);
+    res.status(200).send(`${ID}`);
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Error'
+    });
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`App running on ${PORT}`);
